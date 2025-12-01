@@ -38,6 +38,13 @@ L82
 R1000
 L50
 L5
+R5
+R5
+""", 17),
+       ("""L500
+R1000
+L50
+L5
 """, 16),
    ],)
 def test_part_2(this_input_data, expected):

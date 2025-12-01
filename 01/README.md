@@ -95,5 +95,3 @@ Be careful: if the dial were pointing at 50, a single rotation like R1000 would 
 Using password method 0x434C49434B, what is the password to open the door?
 
 6430 and 6429 are both too high. HMMM..
-
-
