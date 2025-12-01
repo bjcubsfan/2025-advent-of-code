@@ -16,7 +16,6 @@ import docopt
 
 def part_1(input_data):
     input_data = input_data.strip()
-    number_list = list(range(100))
     index = 50
     answer = 0
     for line in input_data.split("\n"):
@@ -42,10 +41,31 @@ def part_1(input_data):
 
 
 def part_2(input_data):
+    logging.debug("====== PART 2 ========")
     input_data = input_data.strip()
-    answer = None
+    input_data = input_data.strip()
+    index = 50
+    answer = 0
     for line in input_data.split("\n"):
+        logging.debug(f"{answer=}")
+        logging.debug(f"{index=}")
         line = line.strip()
+        if not line:
+            continue
+        logging.debug(f"{line=}")
+        number = int(line[1:])
+        if line[0] == "R":
+            # Positive
+            direction = 1
+        elif line[0] == "L":
+            # Negative
+            direction = -1
+        else:
+            sys.exit("NO L OR R!?!?")
+        cross_zero, new_index = divmod(index + direction * number, 100)
+        answer += abs(cross_zero)
+        index = new_index
+    logging.debug(f"{answer=}")
     return answer
 
 
