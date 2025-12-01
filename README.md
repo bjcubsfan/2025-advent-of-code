@@ -1,6 +1,6 @@
-# 2023 advent of code
+# 2025 advent of code
 
-My attempts at completing the [2023 advent of code](https://adventofcode.com/2023).
+My attempts at completing the [2025 advent of code](https://adventofcode.com/2025).
 
 Run tests in each directory with:
 
