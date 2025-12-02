@@ -9,3 +9,4 @@ I finished in 23:39.
 ## Part 2
 
 41823587585 is too high after 1:16:55.
+41823587585 is too high b/c it's the same. WTH.

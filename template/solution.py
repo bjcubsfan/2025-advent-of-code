@@ -41,4 +41,6 @@ if __name__ == "__main__":
     options = docopt.docopt(__doc__)
     if options["--debug"]:
         logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(message)s")
+    else:
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     main()

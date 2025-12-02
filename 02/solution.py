@@ -15,7 +15,7 @@ import textwrap
 import docopt
 
 def is_invalid(id_to_check):
-    logging.debug(f"{id_to_check=}")
+    #logging.debug(f"{id_to_check=}")
     str_id = str(id_to_check)
     if len(str_id) % 2 != 0:
         return False
@@ -32,13 +32,13 @@ def check_split(str_id, wrap_to_num):
     parts = textwrap.wrap(str_id, wrap_to_num)
     sentinal = parts[-1]
     for part in parts:
-        logging.debug(f"{part=} {sentinal=}")
+        #logging.debug(f"{part=} {sentinal=}")
         if part != sentinal:
             return False
     return True
 
 def p2_is_invalid(id_to_check):
-    logging.debug(f"{id_to_check=}")
+    #logging.debug(f"{id_to_check=}")
     str_id = str(id_to_check)
     wrap_to_nums = []
     for check_if_splits_by in range(2, len(str_id)):
@@ -47,24 +47,24 @@ def p2_is_invalid(id_to_check):
                 wrap_to_nums.append(int(len(str_id) / check_if_splits_by))
     # Always have split for each character
     wrap_to_nums.append(1)
-    logging.debug(f"{wrap_to_nums=}")
+    #logging.debug(f"{wrap_to_nums=}")
     for wrap_to_num in wrap_to_nums:
-        logging.debug(f"checking {wrap_to_num=}")
+        #logging.debug(f"checking {wrap_to_num=}")
         if check_split(str_id, wrap_to_num):
             logging.debug(f"FOUND ONE: {str_id}")
             return True
     return False
 
-def p2_sum_invalid_ids(id_range):
-    this_range_sum = 0
+def p2_get_invalid_ids(id_range):
+    invalid_ids = []
     first_id, last_id = id_range.split("-")
     first_id = int(first_id)
     last_id = int(last_id)
     for id_to_check in range(first_id, last_id + 1):
         if p2_is_invalid(id_to_check):
-            logging.debug(f"Adding it {id_to_check=}")
-            this_range_sum += id_to_check
-    return this_range_sum
+            #logging.debug(f"Adding it {id_to_check=}")
+            invalid_ids.append(id_to_check)
+    return invalid_ids
 
 def p1_sum_invalid_ids(id_range):
     first_id, last_id = id_range.split("-")
@@ -73,7 +73,7 @@ def p1_sum_invalid_ids(id_range):
     this_range_sum = 0
     for id_to_check in range(first_id, last_id + 1):
         if is_invalid(id_to_check):
-            logging.debug("Adding it")
+            #logging.debug("Adding it")
             this_range_sum += id_to_check
         else:
             continue
@@ -92,14 +92,15 @@ def part_1(input_data):
 
 def part_2(input_data):
     input_data = input_data.strip()
-    answer = 0
+    invalid_ids = []
     for line in input_data.split("\n"):
         line = line.strip()
         for id_range in line.split(","):
             logging.info(f"About to check {id_range=}")
-            answer += p2_sum_invalid_ids(id_range)
-            logging.debug(f"{answer=}")
-    return answer
+            these_invalid = p2_get_invalid_ids(id_range)
+            invalid_ids.extend(these_invalid)
+            logging.info(f"{these_invalid=}")
+    return sum(set(invalid_ids))
 
 
 def main():
@@ -114,4 +115,6 @@ if __name__ == "__main__":
     if options["--debug"]:
         pass
         logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(message)s")
+    else:
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     main()
