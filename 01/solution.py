@@ -26,12 +26,12 @@ def part_1(input_data):
             # Positive
             logging.debug("R")
             number = int(line[1:])
-            index = (index + number) % 100
+            index = (index + number) % 99
         elif line[0] == "L":
             # Negative
             logging.debug("L")
             number = int(line[1:])
-            index = (index - number) % 100
+            index = (index - number) % 99
         else:
             sys.exit("NO L OR R!?!?")
         logging.debug(f"{index=}")
@@ -62,7 +62,7 @@ def part_2(input_data):
             direction = -1
         else:
             sys.exit("NO L OR R!?!?")
-        cross_zero, new_index = divmod(index + direction * number, 100)
+        cross_zero, new_index = divmod(index + direction * number, 99)
         answer += abs(cross_zero)
         index = new_index
     logging.debug(f"{answer=}")

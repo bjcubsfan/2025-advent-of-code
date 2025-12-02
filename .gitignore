@@ -132,3 +132,9 @@ dmypy.json
 
 # Mac OS
 .DS_Store
+
+# AoC
+# AoC requests no
+
+/input*
+/puzzle*
