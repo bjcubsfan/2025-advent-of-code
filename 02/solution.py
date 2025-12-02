@@ -40,6 +40,8 @@ def check_split(str_id, wrap_to_num):
 def p2_is_invalid(id_to_check):
     #logging.debug(f"{id_to_check=}")
     str_id = str(id_to_check)
+    if len(str_id) == 1:
+        return False
     wrap_to_nums = []
     for check_if_splits_by in range(2, len(str_id)):
         if len(str_id) % check_if_splits_by == 0:
@@ -100,7 +102,9 @@ def part_2(input_data):
             these_invalid = p2_get_invalid_ids(id_range)
             invalid_ids.extend(these_invalid)
             logging.info(f"{these_invalid=}")
-    return sum(set(invalid_ids))
+    set_invalid = set(invalid_ids)
+    logging.info(f"ALL OF THE NUMBERS = {pprint.pformat(set_invalid)}")
+    return sum(set_invalid)
 
 
 def main():
