@@ -136,5 +136,5 @@ dmypy.json
 # AoC
 # AoC requests no
 
-/input*
-/puzzle*
+*/input*
+*/puzzle*
