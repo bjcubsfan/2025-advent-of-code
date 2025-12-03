@@ -138,3 +138,7 @@ dmypy.json
 
 */input*
 */puzzle*
+
+# LaTeX solution files
+01/sol.aux
+01/sol.pdf
