@@ -58,15 +58,15 @@ def is_accessible(helpful_diagram, v_index, h_index):
 def num_accessible(helpful_diagram):
     v_size = len(helpful_diagram)
     h_size = len(helpful_diagram[0])
-    answer = 0
+    num = 0
     accessable = []
     for v_index in range(v_size):
         for h_index in range(h_size):
             if helpful_diagram[v_index][h_index] == "@":
                 if is_accessible(helpful_diagram, v_index, h_index):
-                    answer += 1
+                    num += 1
                     accessable.append((v_index, h_index))
-    return answer, accessable
+    return num, accessable
 
 
 def part_1(input_data):
@@ -86,18 +86,38 @@ def part_1(input_data):
             this_diagram_row.append(character)
         helpful_diagram.append(this_diagram_row)
     logging.debug(f"{compact_diagram(helpful_diagram)}")
-    answer, accessable = num_accessible(helpful_diagram)
+    num, accessable = num_accessible(helpful_diagram)
     for v_index, h_index in accessable:
         helpful_diagram[v_index][h_index] = "X"
     logging.debug(f"SHOW_ACCESSIBLE:{compact_diagram(helpful_diagram)}")
-    return answer
+    return num
 
 
 def part_2(input_data):
+    helpful_diagram = []
     input_data = input_data.strip()
-    answer = None
+    first_line_length = None
+    answer = 0
     for line in input_data.split("\n"):
+        if not line:
+            continue
         line = line.strip()
+        if not first_line_length:
+            first_line_length = len(line)
+        #logging.debug(f"{line=}  -  {len(line)=}  -  {first_line_length=}")
+        assert len(line) == first_line_length
+        this_diagram_row = []
+        for character in line:
+            this_diagram_row.append(character)
+        helpful_diagram.append(this_diagram_row)
+    logging.debug(f"{compact_diagram(helpful_diagram)}")
+    num, accessable = num_accessible(helpful_diagram)
+    while num > 0:
+        answer += num
+        for v_index, h_index in accessable:
+            helpful_diagram[v_index][h_index] = "X"
+        logging.debug(f"SHOW_ACCESSIBLE:{compact_diagram(helpful_diagram)}")
+        num, accessable = num_accessible(helpful_diagram)
     return answer
 
 
