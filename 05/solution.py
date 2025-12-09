@@ -13,6 +13,11 @@ import pprint
 
 import docopt
 
+def num_is_fresh(range_tuples, num):
+    for start, stop in range_tuples:
+        if num >= start and num <= stop:
+            return True
+    return False
 
 def part_1(input_data):
     input_data = input_data.strip()
@@ -20,26 +25,26 @@ def part_1(input_data):
     ranges_evaluated = 0
     fresh_ingredients = set()
     fresh_on_hand = 0
+    range_tuples = []
     for line in input_data.split("\n"):
         line = line.strip()
         if not line and ranges_evaluated > 0:
             # Blank line signals switch
             part = "evaluating_ingredients"
             logging.info("Moving to evaluating_ingredients")
+        # Build tuples
         elif part == "building_ranges":
-            logging.debug(f"building_ranges line: '{line}'")
             ranges_evaluated += 1
             logging.info(f"Evaluating range #{ranges_evaluated}: {line}")
             start, end = line.split("-")
             start = int(start)
             end = int(end)
-            for num in range(start, end + 1):
-                fresh_ingredients.add(num)
+            range_tuples.append((start, end))
         elif part == "evaluating_ingredients":
             logging.debug(f"evaluating_ingredients line: '{line}'")
             num = int(line)
-            if num in fresh_ingredients:
-                fresh_on_hand += 1 
+            if num_is_fresh(range_tuples, num):
+                fresh_on_hand += 1
     return fresh_on_hand
 
 
