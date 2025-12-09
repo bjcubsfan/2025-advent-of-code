@@ -47,13 +47,69 @@ def part_1(input_data):
                 fresh_on_hand += 1
     return fresh_on_hand
 
+def reduce_tuple_overlap(refined_tuples):
+    original_tuples = refined_tuples
+    logging.debug(f"{original_tuples=}")
+    for eval_tuple in original_tuples:
+        logging.debug(f"{eval_tuple=}")
+        start, end = eval_tuple
+        other_tuples = [this_tuple for this_tuple in original_tuples if this_tuple != eval_tuple]
+        logging.debug(f"{other_tuples=}")
+        for other_tuple in other_tuples:
+            o_start, o_end = other_tuple
+            if start >= o_start and start <= o_end:
+                # Start is in the other tuple
+                # 20-34 & 19-20
+                untouched = [this for this in other_tuples if this != other_tuple]
+                logging.debug(f"start {untouched=}")
+                new_tuple = (o_start, max(o_end, end))
+                logging.debug(f"start {new_tuple=}")
+                untouched.append(new_tuple)
+                return original_tuples, untouched
+            elif end <= o_end and end >= o_start:
+                # End is in the other tuple
+                # 20-34 & 32-39
+                untouched = [this for this in other_tuples if this != other_tuple]
+                logging.debug(f"end {untouched=}")
+                new_tuple = (min(o_start, start), o_end)
+                logging.debug(f"end {new_tuple=}")
+                untouched.append(new_tuple)
+                return original_tuples, untouched
+    return original_tuples, refined_tuples
 
 def part_2(input_data):
     input_data = input_data.strip()
-    answer = None
+    part = "building_ranges"
+    ranges_evaluated = 0
+    fresh_ingredients = set()
+    fresh_on_hand = 0
+    range_tuples = []
     for line in input_data.split("\n"):
         line = line.strip()
+        if not line and ranges_evaluated > 0:
+            # Blank line signals switch
+            part = "evaluating_ingredients"
+            logging.info("Moving to evaluating_ingredients")
+        # Build tuples
+        elif part == "building_ranges":
+            ranges_evaluated += 1
+            logging.info(f"Evaluating range #{ranges_evaluated}: {line}")
+            start, end = line.split("-")
+            start = int(start)
+            end = int(end)
+            range_tuples.append((start, end))
+        elif part == "evaluating_ingredients":
+            continue
+    original_tuples = []
+    refined_tuples = range_tuples
+    while refined_tuples != original_tuples:
+        original_tuples, refined_tuples = reduce_tuple_overlap(refined_tuples)
+        logging.debug(f"Refined to: {pprint.pformat(refined_tuples)}")
+    answer = 0
+    for start, end in refined_tuples:
+        answer += end + 1 - start
     return answer
+
 
 
 def main():
